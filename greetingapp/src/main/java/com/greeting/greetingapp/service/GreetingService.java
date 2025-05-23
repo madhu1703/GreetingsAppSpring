@@ -46,6 +46,14 @@ public class GreetingService implements IGreetingService {
         return greetingRepository.findAll();
     }
     @Override
+    public boolean deleteGreeting(Long id) {
+        if (greetingRepository.existsById(id)) {
+            greetingRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+    @Override
     public Optional<Greeting> updateGreeting(Long id, Greeting updatedGreeting) {
         return greetingRepository.findById(id).map(existingGreeting -> {
             existingGreeting.setMessage(updatedGreeting.getMessage());
