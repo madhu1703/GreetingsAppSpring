@@ -1,5 +1,8 @@
 package com.greeting.greetingapp.controller;
 
+import com.greeting.greetingapp.model.Greeting;
+import com.greeting.greetingapp.service.IGreetingService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,6 +13,12 @@ import java.util.Map;
 @RequestMapping("/greeting")
 public class GreetingController {
 
+    @Autowired
+    private IGreetingService greetingService;
+    @GetMapping("/message")
+    public Greeting getGreetingMessage() {
+        return greetingService.getGreetingMessage();
+    }
     @GetMapping
     public ResponseEntity<Map<String, String>> getGreeting() {
         Map<String, String> response = new HashMap<>();
@@ -17,7 +26,6 @@ public class GreetingController {
         response.put("message", "Hello from GET!");
         return ResponseEntity.ok(response);
     }
-
     @PostMapping
     public ResponseEntity<Map<String, String>> postGreeting() {
         Map<String, String> response = new HashMap<>();
@@ -25,7 +33,6 @@ public class GreetingController {
         response.put("message", "Hello from POST!");
         return ResponseEntity.ok(response);
     }
-
     @PutMapping
     public ResponseEntity<Map<String, String>> putGreeting() {
         Map<String, String> response = new HashMap<>();
@@ -33,7 +40,6 @@ public class GreetingController {
         response.put("message", "Hello from PUT!");
         return ResponseEntity.ok(response);
     }
-
     @DeleteMapping
     public ResponseEntity<Map<String, String>> deleteGreeting() {
         Map<String, String> response = new HashMap<>();
@@ -42,4 +48,3 @@ public class GreetingController {
         return ResponseEntity.ok(response);
     }
 }
-
