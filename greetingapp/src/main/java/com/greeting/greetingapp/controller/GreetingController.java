@@ -8,22 +8,25 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+
 @RestController
 @RequestMapping("/greeting")
 public class GreetingController {
 
     @Autowired
     private IGreetingService greetingService;
-
-    // UC3: Greeting message with optional firstName and lastName query params
     @GetMapping("/message")
     public Greeting getGreetingMessage(
             @RequestParam(required = false) String firstName,
             @RequestParam(required = false) String lastName) {
         return greetingService.getGreetingMessage(firstName, lastName);
     }
+    @PostMapping("/save")
+    public ResponseEntity<Greeting> saveGreeting(@RequestBody Greeting greeting) {
+        Greeting savedGreeting = greetingService.saveGreeting(greeting);
+        return ResponseEntity.ok(savedGreeting);
+    }
 
-    // The other HTTP methods from UC2 (for completeness)
     @GetMapping
     public ResponseEntity<Map<String, String>> getGreeting() {
         Map<String, String> response = new HashMap<>();
@@ -56,3 +59,4 @@ public class GreetingController {
         return ResponseEntity.ok(response);
     }
 }
+

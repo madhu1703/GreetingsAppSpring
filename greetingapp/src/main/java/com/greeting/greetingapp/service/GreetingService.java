@@ -1,8 +1,15 @@
 package com.greeting.greetingapp.service;
+
 import com.greeting.greetingapp.model.Greeting;
+import com.greeting.greetingapp.repository.GreetingRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 @Service
 public class GreetingService implements IGreetingService {
+
+    @Autowired
+    private GreetingRepository greetingRepository;
 
     @Override
     public Greeting getGreetingMessage(String firstName, String lastName) {
@@ -18,6 +25,11 @@ public class GreetingService implements IGreetingService {
         }
 
         String message = name.isEmpty() ? "Hello World" : "Hello " + name;
-        return new Greeting(0, message);
+        return new Greeting(null, message);
+    }
+
+    @Override
+    public Greeting saveGreeting(Greeting greeting) {
+        return greetingRepository.save(greeting);
     }
 }
