@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
-
+import java.util.Optional;
+import org.springframework.http.ResponseEntity;
 @RestController
 @RequestMapping("/greeting")
 public class GreetingController {
@@ -62,6 +63,14 @@ public class GreetingController {
         response.put("method", "PUT");
         response.put("message", "Hello from PUT!");
         return ResponseEntity.ok(response);
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<Greeting> updateGreeting(@PathVariable Long id,
+                                                   @RequestBody Greeting greeting) {
+        Optional<Greeting> updatedGreeting = greetingService.updateGreeting(id, greeting);
+        return updatedGreeting
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping
