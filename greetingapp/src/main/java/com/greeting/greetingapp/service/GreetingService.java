@@ -5,6 +5,8 @@ import com.greeting.greetingapp.repository.GreetingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class GreetingService implements IGreetingService {
 
@@ -32,4 +34,10 @@ public class GreetingService implements IGreetingService {
     public Greeting saveGreeting(Greeting greeting) {
         return greetingRepository.save(greeting);
     }
+
+    @Override
+    public Optional<Greeting> findGreetingById(Long id) {
+        return greetingRepository.findById(id);
+    }
 }
+

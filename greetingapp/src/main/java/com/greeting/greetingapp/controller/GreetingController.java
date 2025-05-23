@@ -50,6 +50,12 @@ public class GreetingController {
         response.put("message", "Hello from PUT!");
         return ResponseEntity.ok(response);
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<Greeting> getGreetingById(@PathVariable Long id) {
+        return greetingService.findGreetingById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 
     @DeleteMapping
     public ResponseEntity<Map<String, String>> deleteGreeting() {
