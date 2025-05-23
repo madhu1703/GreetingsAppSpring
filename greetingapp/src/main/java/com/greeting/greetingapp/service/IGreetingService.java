@@ -8,4 +8,5 @@ public interface IGreetingService {
 
     Greeting saveGreeting(Greeting greeting);
     Optional<Greeting> findGreetingById(Long id);
+    List<Greeting> getAllGreetings();
 }

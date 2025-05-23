@@ -5,7 +5,7 @@ import com.greeting.greetingapp.service.IGreetingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,15 +16,28 @@ public class GreetingController {
     @Autowired
     private IGreetingService greetingService;
     @GetMapping("/message")
-    public Greeting getGreetingMessage(
-            @RequestParam(required = false) String firstName,
-            @RequestParam(required = false) String lastName) {
+    public Greeting getGreetingMessage(@RequestParam(required = false) String firstName,
+                                       @RequestParam(required = false) String lastName) {
         return greetingService.getGreetingMessage(firstName, lastName);
     }
+
     @PostMapping("/save")
     public ResponseEntity<Greeting> saveGreeting(@RequestBody Greeting greeting) {
         Greeting savedGreeting = greetingService.saveGreeting(greeting);
         return ResponseEntity.ok(savedGreeting);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Greeting> getGreetingById(@PathVariable Long id) {
+        return greetingService.findGreetingById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<Greeting>> getAllGreetings() {
+        List<Greeting> greetings = greetingService.getAllGreetings();
+        return ResponseEntity.ok(greetings);
     }
 
     @GetMapping
@@ -50,12 +63,6 @@ public class GreetingController {
         response.put("message", "Hello from PUT!");
         return ResponseEntity.ok(response);
     }
-    @GetMapping("/{id}")
-    public ResponseEntity<Greeting> getGreetingById(@PathVariable Long id) {
-        return greetingService.findGreetingById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
 
     @DeleteMapping
     public ResponseEntity<Map<String, String>> deleteGreeting() {
@@ -65,4 +72,3 @@ public class GreetingController {
         return ResponseEntity.ok(response);
     }
 }
-
