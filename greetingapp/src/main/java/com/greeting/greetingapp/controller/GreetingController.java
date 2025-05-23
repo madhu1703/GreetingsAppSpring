@@ -8,17 +8,22 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
-
 @RestController
 @RequestMapping("/greeting")
 public class GreetingController {
 
     @Autowired
     private IGreetingService greetingService;
+
+    // UC3: Greeting message with optional firstName and lastName query params
     @GetMapping("/message")
-    public Greeting getGreetingMessage() {
-        return greetingService.getGreetingMessage();
+    public Greeting getGreetingMessage(
+            @RequestParam(required = false) String firstName,
+            @RequestParam(required = false) String lastName) {
+        return greetingService.getGreetingMessage(firstName, lastName);
     }
+
+    // The other HTTP methods from UC2 (for completeness)
     @GetMapping
     public ResponseEntity<Map<String, String>> getGreeting() {
         Map<String, String> response = new HashMap<>();
@@ -26,6 +31,7 @@ public class GreetingController {
         response.put("message", "Hello from GET!");
         return ResponseEntity.ok(response);
     }
+
     @PostMapping
     public ResponseEntity<Map<String, String>> postGreeting() {
         Map<String, String> response = new HashMap<>();
@@ -33,6 +39,7 @@ public class GreetingController {
         response.put("message", "Hello from POST!");
         return ResponseEntity.ok(response);
     }
+
     @PutMapping
     public ResponseEntity<Map<String, String>> putGreeting() {
         Map<String, String> response = new HashMap<>();
@@ -40,6 +47,7 @@ public class GreetingController {
         response.put("message", "Hello from PUT!");
         return ResponseEntity.ok(response);
     }
+
     @DeleteMapping
     public ResponseEntity<Map<String, String>> deleteGreeting() {
         Map<String, String> response = new HashMap<>();
